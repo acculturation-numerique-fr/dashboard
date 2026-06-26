@@ -34,26 +34,7 @@ Bienvenue dans le **manuel chronologique complet** du projet Ligue 1 Dashboard. 
 
 Tous les prompts, la stratégie et la documentation sont disponibles dans le dossier [**docs**](/docs).
 
-## Coeur Technique
 
-| Couche | Implémentation |
-|---|---|
-| **Philosophie** | ![AI-Powered](https://img.shields.io/badge/Philosophy-AI--Powered-6366f1?style=flat-square) |
-| **Interface** | ![Vanilla JS](https://img.shields.io/badge/Interface-Vanilla_JS-f7df1e?style=flat-square) ![CSS3](https://img.shields.io/badge/Style-CSS3-1572b6?style=flat-square) |
-| **Sécurité** | ![Vercel Proxy](https://img.shields.io/badge/Security-Vercel_Proxy-000000?style=flat-square) |
-| **Moteur de Données** | ![API v4](https://img.shields.io/badge/Data-API_v4-2979ff?style=flat-square) |
-
-#### Cycle de vie du projet : Flux de travail du tableau de bord orchestré par l'IA
-```mermaid
-graph LR
-    A[Spécifications & Stratégie] --> B[Audit visuel]
-    B --> C[Validation API & Postman]
-    C --> D[Onboarding]
-    D --> E[Ingénierie de contexte]
-    E --> F[Implémentation & Dev]
-    F --> G[Déploiement]
-    
-```
 
 ### Le Résultat Final
 La mission : Transformer une vision stratégique en un tableau de bord Ligue 1 fonctionnel de qualité industrielle.
