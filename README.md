@@ -19,7 +19,6 @@
 </p>
 <!-- markdownlint-enable MD033 -->
 
-# Guide Complet : Tableau de Bord Dynamique Ligue 1
 
 Bienvenue dans le **manuel chronologique complet** du projet Ligue 1 Dashboard. Ce projet n'est pas un simple tableau de bord : c'est une démonstration concrète de la philosophie de **Développement Assisté par IA (AI-Assisted Coding)**. Il montre comment un développeur IA (Antigravity) orchestre tout le cycle de vie d'un produit technologique : du cadrage stratégique et de l'audit d'interface au développement fullstack et au déploiement industriel.
 
