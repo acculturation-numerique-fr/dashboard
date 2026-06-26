@@ -12,20 +12,47 @@ async function initDashboard() {
     try {
         // Parallel fetch for better performance
         // Note: Using relative paths assuming server.js serves this on /
-        // Helper to check response
-        const fetchProxy = async (url) => {
-            const res = await fetch(url);
-            if (!res.ok) {
-                const text = await res.text();
-                throw new Error(`Erreur ${res.status}: ${text}`);
+        // Helper with caching and 429 fallback
+        const fetchProxy = async (endpoint) => {
+            const cacheKey = `cache_${endpoint}`;
+            const cacheTimeKey = `cache_${endpoint}_time`;
+            const ttl = 300000; // 5 minutes in ms
+            
+            const cachedData = localStorage.getItem(cacheKey);
+            const cachedTime = localStorage.getItem(cacheTimeKey);
+            
+            if (cachedData && cachedTime && (Date.now() - parseInt(cachedTime, 10) < ttl)) {
+                console.log(`Using cached data for ${endpoint}`);
+                return JSON.parse(cachedData);
             }
-            return res.json();
+            
+            try {
+                const res = await fetch(`/api/proxy?endpoint=${encodeURIComponent(endpoint)}`);
+                if (!res.ok) {
+                    if (res.status === 429 && cachedData) {
+                        console.warn(`Rate limited (429). Falling back to expired cache for ${endpoint}`);
+                        return JSON.parse(cachedData);
+                    }
+                    const text = await res.text();
+                    throw new Error(`Erreur ${res.status}: ${text}`);
+                }
+                const data = await res.json();
+                localStorage.setItem(cacheKey, JSON.stringify(data));
+                localStorage.setItem(cacheTimeKey, Date.now().toString());
+                return data;
+            } catch (err) {
+                if (cachedData) {
+                    console.warn(`Fetch failed. Falling back to expired cache for ${endpoint}:`, err);
+                    return JSON.parse(cachedData);
+                }
+                throw err;
+            }
         };
 
         const [compData, standingsData, matchesData] = await Promise.all([
-            fetchProxy('/api/proxy?endpoint=/competitions/FL1'),
-            fetchProxy('/api/proxy?endpoint=/competitions/FL1/standings'),
-            fetchProxy('/api/proxy?endpoint=/competitions/FL1/matches')
+            fetchProxy('/competitions/FL1'),
+            fetchProxy('/competitions/FL1/standings'),
+            fetchProxy('/competitions/FL1/matches')
         ]);
 
         console.log("Data fetched successfully");
